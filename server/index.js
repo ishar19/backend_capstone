@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const app = express();
 const fs = require("fs");
 const path = require("path");
+const mongoose = require("mongoose");
 const logStream = fs.createWriteStream(path.join(__dirname, "log.txt"), {
   flags: "a",
 });
@@ -29,6 +30,13 @@ app.use("/api/job", jobRoutes);
 app.get("/", (req, res) => {
   res.send("Hello World!").status(200);
 });
+app.use((err, req, res, next) => {
+  const now = new Date();
+  const time = ` ${now.toLocaleTimeString()}`;
+  const error = `${req.method} ${req.originalUrl} ${time}`;
+  errorStream.write(error + err.stack + "\n");
+  res.status(500).send("Internal Server Error");
+});
 app.use((req, res, next) => {
   const now = new Date();
   const time = ` ${now.toLocaleTimeString()}`;
@@ -36,6 +44,11 @@ app.use((req, res, next) => {
   errorStream.write(error + "\n");
   res.status(404).send("Route not found!");
 });
+
+mongoose
+  .connect("your mongodb connection string")
+  .then(() => console.log("Connected to DB"))
+  .catch((err) => console.log(err));
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
