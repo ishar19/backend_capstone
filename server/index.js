@@ -46,7 +46,9 @@ app.use((req, res, next) => {
 });
 
 mongoose
-  .connect("your mongodb connection string")
+  .connect(
+    "mongodb+srv://user_001:iQkx70CQfF3hm8PG@cluster0.iefo3jp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+  )
   .then(() => console.log("Connected to DB"))
   .catch((err) => console.log(err));
 app.listen(port, () => {

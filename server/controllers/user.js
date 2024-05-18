@@ -42,6 +42,7 @@ const loginUser = async (req, res, next) => {
     if (!isPasswordValid) {
       return res.status(400).send("Invalid email or password");
     }
+    // todo move secret to env
     const token = jwt.sign({ userId: user._id }, "secret", {
       expiresIn: "240h",
     });
