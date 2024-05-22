@@ -4,7 +4,13 @@ const bodyParser = require("body-parser");
 const app = express();
 const fs = require("fs");
 const path = require("path");
+const cors = require("cors");
 const mongoose = require("mongoose");
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  })
+);
 const logStream = fs.createWriteStream(path.join(__dirname, "log.txt"), {
   flags: "a",
 });
