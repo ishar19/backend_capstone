@@ -50,7 +50,14 @@ const createJob = async (req, res, next) => {
 const getAllJobs = async (req, res, next) => {
   try {
     const jobs = await Job.find()
-      .select(["title", "skills", "companyName"]) // select only these fields
+      .select([
+        "title",
+        "skills",
+        "salary",
+        "location",
+        "jobType",
+        "locationType",
+      ]) // select only these fields
       .sort({ createdAt: -1 }); // -1 for descending order
     res.status(200).send(jobs);
   } catch (err) {
