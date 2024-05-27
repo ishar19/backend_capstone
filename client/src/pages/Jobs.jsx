@@ -20,6 +20,22 @@ export default function Jobs() {
   return (
     <div>
       <h1>Jobs</h1>
+      {localStorage.getItem("token") && (
+        <button
+          style={{
+            padding: "5px 10px",
+            backgroundColor: "#ED5353",
+            color: "white",
+            border: "none",
+            cursor: "pointer",
+            borderRadius: "5px",
+            marginTop: "5px",
+          }}
+          onClick={() => navigate("/createjob")}
+        >
+          Create Job
+        </button>
+      )}
       <ul>
         {jobs.map((job) => (
           <li key={job._id}>
@@ -68,6 +84,22 @@ export default function Jobs() {
             >
               View Details
             </button>
+            {localStorage.getItem("token") && (
+              <button
+                style={{
+                  padding: "5px 10px",
+                  backgroundColor: "#ED5353",
+                  color: "white",
+                  border: "none",
+                  cursor: "pointer",
+                  borderRadius: "5px",
+                  marginTop: "5px",
+                }}
+                onClick={() => navigate(`/edit/${job._id}`)}
+              >
+                Edit Job
+              </button>
+            )}
           </li>
         ))}
       </ul>

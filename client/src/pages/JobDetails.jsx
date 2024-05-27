@@ -27,6 +27,7 @@ export default function JobDetails() {
       {jobDetails && (
         <div>
           <h3>{jobDetails.title}</h3>
+          <h2>{jobDetails.companyName}</h2>
           <p>{jobDetails.description}</p>
           <p>{jobDetails.location}</p>
           <p>{jobDetails.salary}</p>
