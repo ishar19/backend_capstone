@@ -11,7 +11,7 @@ env.config();
 const mongoose = require("mongoose");
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "*",
   })
 );
 const logStream = fs.createWriteStream(path.join(__dirname, "log.txt"), {
