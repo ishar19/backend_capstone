@@ -3,8 +3,9 @@ import { getAllJobs } from "../services/jobs";
 import { useNavigate } from "react-router-dom";
 export default function Jobs() {
   const [jobs, setJobs] = useState([]);
+  const [skills, setSkills] = useState("");
   useEffect(() => {
-    getAllJobs()
+    getAllJobs({ skills: "" })
       .then((response) => {
         setJobs(response.data);
       })
@@ -17,24 +18,56 @@ export default function Jobs() {
   const gotoJobDetails = (id) => {
     navigate(`/jobs/${id}`);
   };
+  const triggerSearch = () => {
+    getAllJobs({ skills })
+      .then((response) => {
+        setJobs(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        setJobs([]);
+      });
+  };
   return (
     <div>
       <h1>Jobs</h1>
       {localStorage.getItem("token") && (
-        <button
-          style={{
-            padding: "5px 10px",
-            backgroundColor: "#ED5353",
-            color: "white",
-            border: "none",
-            cursor: "pointer",
-            borderRadius: "5px",
-            marginTop: "5px",
-          }}
-          onClick={() => navigate("/createjob")}
-        >
-          Create Job
-        </button>
+        <>
+          <button
+            style={{
+              padding: "5px 10px",
+              backgroundColor: "#ED5353",
+              color: "white",
+              border: "none",
+              cursor: "pointer",
+              borderRadius: "5px",
+              marginTop: "5px",
+            }}
+            onClick={() => navigate("/createjob")}
+          >
+            Create Job
+          </button>
+          <input
+            type="text"
+            value={skills}
+            onChange={(e) => setSkills(e.target.value)}
+            placeholder="Search by skills(seperated by comma)"
+          />
+          <button
+            style={{
+              padding: "5px 10px",
+              backgroundColor: "#ED5353",
+              color: "white",
+              border: "none",
+              cursor: "pointer",
+              borderRadius: "5px",
+              marginTop: "5px",
+            }}
+            onClick={triggerSearch}
+          >
+            Search
+          </button>
+        </>
       )}
       <ul>
         {jobs.map((job) => (
