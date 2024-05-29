@@ -5,6 +5,9 @@ const app = express();
 const fs = require("fs");
 const path = require("path");
 const cors = require("cors");
+const env = require("dotenv");
+env.config();
+
 const mongoose = require("mongoose");
 app.use(
   cors({
@@ -52,9 +55,7 @@ app.use((req, res, next) => {
 });
 
 mongoose
-  .connect(
-    "mongodb+srv://user_001:iQkx70CQfF3hm8PG@cluster0.iefo3jp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-  )
+  .connect(process.env.MONGO_URI)
   .then(() => console.log("Connected to DB"))
   .catch((err) => console.log(err));
 app.listen(port, () => {

@@ -2,7 +2,8 @@ const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const user = require("../models/user");
-
+const env = require("dotenv");
+env.config();
 const registerUser = async (req, res, next) => {
   try {
     const { name, email, mobile, password } = req.body;
@@ -44,7 +45,7 @@ const loginUser = async (req, res, next) => {
       return res.status(400).send("Invalid email or password");
     }
     // todo move secret to env
-    const token = jwt.sign({ userId: user._id }, "secret", {
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: "240h",
     });
     res.status(200).json({

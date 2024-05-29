@@ -48,18 +48,37 @@ const createJob = async (req, res, next) => {
   }
 };
 const getAllJobs = async (req, res, next) => {
+  const { skills } = req.query;
+  const skillsArray =
+    skills !== undefined
+      ? skills.split(",").map((skill) => skill.trim())
+      : null;
   try {
-    const jobs = await Job.find()
-      .select([
-        "title",
-        "skills",
-        "salary",
-        "location",
-        "jobType",
-        "locationType",
-      ]) // select only these fields
-      .sort({ createdAt: -1 }); // -1 for descending order
-    res.status(200).send(jobs);
+    if (skills?.length === 0 || skillsArray === null) {
+      const jobs = await Job.find()
+        .select([
+          "title",
+          "skills",
+          "salary",
+          "location",
+          "jobType",
+          "locationType",
+        ])
+        .sort({ createdAt: -1 });
+      return res.status(200).send(jobs);
+    } else {
+      const jobs = await Job.find({ skills: { $in: skillsArray } })
+        .select([
+          "title",
+          "skills",
+          "salary",
+          "location",
+          "jobType",
+          "locationType",
+        ])
+        .sort({ createdAt: -1 });
+      return res.status(200).send(jobs);
+    }
   } catch (err) {
     next(err);
   }
